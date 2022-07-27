@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <!-- main css -->
+    <link rel="stylesheet" href="/css/main.css" />
+    <!-- google fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Courgette"
+      rel="stylesheet"
+    />
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="/css/all.css" />
+    <title>budget app</title>
+    <style></style>
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-11 mx-auto pt-3">
+          <!-- title -->
+          <h3 class="text-uppercase mb-4">budget app</h3>
+          <div class="row">
+            <div class="col-md-5 my-3">
+              <!-- budget feedback -->
+              <div class="budget-feedback alert alert-danger text-capitalize">
+                budget feedback
+              </div>
+              <!-- budget form -->
+
+              <form
+                id="budget-form"
+                class="budget-form"
+                action="/budget"
+                method="post"
+              >
+                <h5 class="text-capitalize">please enter your budget</h5>
+                <div class="form-group">
+                  <input
+                    type="number"
+                    class="form-control budget-input"
+                    id="budget-input"
+                    name="budget"
+                    required
+                  />
+                </div>
+                <!-- submit button -->
+                <button
+                  type="submit"
+                  class="btn text-capitalize budget-submit"
+                  id="budget-submit"
+                >
+                  calculate
+                </button>
+              </form>
+            </div>
+
+            <div class="col-md-7">
+              <!-- app info -->
+              <div class="row my-3">
+                <div class="col-4 text-center mb-2">
+                  <h6 class="text-uppercase info-title">budget</h6>
+                  <span class="budget-icon"
+                    ><i class="fas fa-money-bill-alt"></i
+                  ></span>
+                  <h4 class="text-uppercase mt-2 budget" id="budget">
+                    <span>$ </span><span id="budget-amount"><%= budget %></span>
+                  </h4>
+                </div>
+                <div class="col-4 text-center">
+                  <h6 class="text-uppercase info-title">expenses</h6>
+                  <span class="expense-icon"
+                    ><i class="far fa-credit-card"></i
+                  ></span>
+                  <h4 class="text-uppercase mt-2 expense" id="expense">
+                    <span>$ </span
+                    ><span id="expense-amount"><%= expense%></span>
+                  </h4>
+                </div>
+                <div class="col-4 text-center">
+                  <h6 class="text-uppercase info-title">balance</h6>
+                  <span class="balance-icon"
+                    ><i class="fas fa-dollar-sign"></i
+                  ></span>
+                  <h4 class="text-uppercase mt-2 balance" id="balance">
+                    <span>$ </span
+                    ><span id="balance-amount"><%= balance%></span>
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-5 my-3">
+              <!-- expense feedback -->
+              <div class="expense-feedback alert alert-danger text-capitalize">
+                expense feedback
+              </div>
+              <!-- expense form -->
+              <form
+                id="expense-form"
+                class="expense-form"
+                action="/expense"
+                method="post"
+              >
+                <h5 class="text-capitalize">please enter your expense</h5>
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control expense-input"
+                    id="expense-input"
+                    name="inputExpense"
+                    required
+                  />
+                </div>
+                <h5 class="text-capitalize">please enter expense amount</h5>
+                <div class="form-group">
+                  <input
+                    type="number"
+                    class="form-control expense-input"
+                    id="amount-input"
+                    name="inputExpenseAmount"
+                    required
+                    
+                  />
+                </div>
+                <!-- submit button -->
+                <button
+                  type="submit"
+                  class="btn text-capitalize expense-submit"
+                  id="expense-submit" 
+                  onclick="updateExp()"
+                >
+                  add expense
+                </button>
+                <!-- <button class="btn text-capitalize expense-submit" id="btn_update" onclick="updateExp()">Update</button> -->
+                
+              </form>
+              
+                <div>
+                  <button class="btn text-capitalize expense-submit" id="btn_update" onclick="updateExp()">Update</button>
+                </div>
+            </div>
+            <div class="col-md-7 my-3">
+              <!-- expense list -->
+              <div class="expense-list" id="expense-list">
+                <div
+                  class="expense-list__info d-flex justify-content-between text-capitalize"
+                >
+                  <h5 class="list-item">expense title</h5>
+                  <h5 class="list-item">expense value</h5>
+                  <h5 class="list-item"></h5>
+                </div>
+                <!-- single expense -->
+                
+                <div class="expense">
+                  <% 
+                  for(var i=0;i<listOfExpense.length;i++) { %>
+                    
+                  <div
+                    class="expense-item d-flex justify-content-between align-items-baseline"
+                  >
+                    <h6 class="expense-title mb-0 text-uppercase list-item">
+                      - <%= listOfExpense[i][1]%>
+                    </h6>
+                    <h5 class="expense-amount mb-0 list-item"><%= listOfExpense[i][2]%></h5>
+                    
+                      
+                    <div class="expense-icons list-item">
+                      <a  class="edit-icon mx-2" id=<%= listOfExpense[i][0]%> onclick="editExp('<%= listOfExpense[i][0]%>' ,'<%= listOfExpense[i][1]%>' , <%= listOfExpense[i][2]%>)"  >
+                        <i class="fas fa-edit"></i>
+                      </a>
+                        <a class="delete-icon" id=<%= listOfExpense[i][0]%> onclick="deleteExp(this.id)" >
+                        <i class="fas fa-trash"></i>
+                      </a>
+                    
+                    </div>
+                    
+                  </div>
+                  <%}  %>
+                </div>
+
+                <!-- end of single expense -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<script>
+   //to Make Patch request to delete expense
+   var selected_Id
+   var selected_Title
+   var selected_Amount
+   var mode = 'ADD'
+   document.getElementById("btn_update").style.visibility = "hidden";
+   function editExp(id,name, value){
+         
+         // console.log("ggggg---"+id);
+         // console.log("ggggg---"+arr);
+                   
+           selected_Id = id
+           selected_Title = name
+           selected_Amount = value
+           console.log(selected_Id)
+           console.log(selected_Amount)
+           console.log(selected_Title)
+           document.getElementById("expense-input").value=name+"";
+           document.getElementById("amount-input").value=value+"";
+           document.getElementById("expense-submit").disabled =true;
+           document.getElementById("btn_update").style.visibility = "visible";
+           
+           mode="UPDATE"
+        
+   }
+   function deleteExp(id){
+            var url = "http://localhost:3010/delete";
+            var xhr = new XMLHttpRequest();
+            xhr.open("PATCH", url);
+            xhr.setRequestHeader("Accept", "application/json");
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            // to reload page
+            xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                location.reload(true);
+            }};
+            
+            var data = {
+                _id: id,
+            };
+            xhr.send(JSON.stringify(data));
+        }
+        
+        
+        function updateExp(){
+          selected_Title = document.getElementById("expense-input").value;
+          selected_Amount =  document.getElementById("amount-input").value;
+          
+          alert("MODE-bi----"+mode)
+            if(mode=="ADD"){
+                  return;
+            }
+            alert("MODE-ai---"+mode)
+            var url = "http://localhost:3010/update";
+            var xhr = new XMLHttpRequest();
+            xhr.open("PATCH", url);
+            xhr.setRequestHeader("Accept", "application/json");
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            // to reload page
+            xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                location.reload(true);
+            }};
+            
+            var updateData = {
+                _id: selected_Id,
+                _name: selected_Title,
+                _amount: selected_Amount
+            };
+            xhr.send(JSON.stringify(updateData));
+            mode="ADD"
+        }
+      
+
+
+</script>
+
+    <!-- jquery -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <!-- bootstrap js -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- script js -->
+    <script src="js/app.js"></script>
+  </body>
+</html>
